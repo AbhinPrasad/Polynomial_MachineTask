@@ -1,18 +1,33 @@
 import express from "express";
-import cors from "cors";
 import colors from "colors";
 import dotenv from "dotenv";
 dotenv.config();
+import passport from "passport";
+import session from "express-session";
 
 import { connectDB } from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+	session({
+		secret: "test",
+		resave: false,
+		saveUninitialized: true,
+		cookie: { secure: false }
+	})
+);
 
-connectDB()
+app.use(passport.initialize());
+app.use(passport.session());
+
+//routes
+app.use("/auth/google", authRoutes);
+
+connectDB();
 
 const PORT = process.env.PORT || 8080;
 
