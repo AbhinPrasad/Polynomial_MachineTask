@@ -7,7 +7,11 @@ import { loginFailure, loginSuccess } from "../controllers/authController.js";
 
 router.get(
 	"/",
-	passport.authenticate("google", { scope: ["email", "profile"] })
+	passport.authenticate("google", {
+		scope: ["email", "profile"],
+		prompt: "consent",
+		accessType: "offline"
+	})
 );
 
 router.get(

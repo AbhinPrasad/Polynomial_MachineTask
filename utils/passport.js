@@ -13,7 +13,12 @@ passport.use(
 		},
 
 		function (req, accessToken, refreshToken, profile, done) {
-			console.log(profile);
+			console.log(refreshToken);
+			console.log(accessToken);
+			req.session.credentials = {
+				access_token: accessToken,
+				refresh_token: refreshToken
+			};
 			return done(null, profile);
 		}
 	)
